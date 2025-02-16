@@ -1,0 +1,5 @@
+ ## The below modules are the requirements for the project:
+	flask
+	opencv-python
+	pytesseract
+	openai

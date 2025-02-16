@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ctrl Alt Elite - OCR Text Extractor</title>
+    <link rel="icon" type="image/png" href="https://ts2.mm.bing.net/th?id=OIP.i_2wjSQQsB1Dblv3bsJMWQHaHa&pid=15.1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .file-input-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px dashed #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background: #fafafa;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        input[type="file"] {
+            flex-grow: 1;
+            opacity: 0;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            cursor: pointer;
+        }
+
+        .file-label {
+            flex-grow: 1;
+            text-align: left;
+            padding-left: 10px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .file-status {
+            font-weight: bold;
+            padding-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .file-input-container:hover {
+            border-color: #007bff;
+        }
+
+        button {
+            padding: 12px;
+            background-color: rgb(250, 201, 3);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fafafa;
+            resize: none;
+        }
+
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .footer-container {
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+            font-size: 0.8rem;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Ctrl+Alt+Elite - OCR Text Extractor</h2>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="file-input-container">
+                <span class="file-label">Choose a file</span>
+                <input type="file" name="image" accept="image/*" required onchange="updateFileStatus(this)">
+                <span id="file-status" class="file-status" style="color: red;">No file chosen</span>
+            </div>
+            <button type="submit">UPLOAD & EXTRACT</button>
+        </form>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if image_url %}
+            <h3>Uploaded Image:</h3>
+            <img src="{{ image_url }}" alt="Uploaded Image">
+
+            <h3>Extracted Text:</h3>
+            <textarea readonly>{{ extracted_text }}</textarea>
+        {% endif %}
+    </div>
+
+    <div class="footer-container">© Ctrl Alt Elite - Text Extractor</div>
+
+    <script>
+        function updateFileStatus(input) {
+            let fileStatus = document.getElementById("file-status");
+            if (input.files.length > 0) {
+                fileStatus.textContent = input.files[0].name;
+                fileStatus.style.color = "green";
+            } else {
+                fileStatus.textContent = "No file chosen";
+                fileStatus.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
